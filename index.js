@@ -18,7 +18,7 @@ app.use(express.static('public'));
 
 //lectura y parseo del body
 app.use(express.json());
-
+  
 //Ruta de auth
 app.use('/api/auth', require('./routes/auth'));
 // CRUD de docs
