@@ -1,10 +1,9 @@
 const express = require('express');
-const Documento = require('../models/Documentos.js');
+const DashDoc = require('../models/DashDocs');
 
 const getDocs = async (req, res = express.response) =>{
 
-    const docs = await Documento.find()
-    .populate('country', 'name');
+    const docs = await DashDoc.find();
 
     res.json({
         ok:true,
@@ -16,8 +15,7 @@ const getDocs = async (req, res = express.response) =>{
 const getDocsByType = async (req, res = express.response) =>{
     const {name, type} =(req);
 
-    const docs = await Documento.find()
-    .populate('country', 'name');
+    const docs = await DashDoc.find();
     console.log(docs);
     if(docs.length===0){
         res.json({
@@ -36,7 +34,7 @@ const getDocsByType = async (req, res = express.response) =>{
     
 }
 const crearDoc = async (req, res = express.response) =>{
-    const doc = new Documento(req.body);
+    const doc = new DashDoc(req.body);
     console.log(doc);
     try {
         await doc.save();
@@ -62,7 +60,7 @@ const actualizarDoc = async (req, res = express.response) =>{
     console.log(req.params.id);
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await DashDoc.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -70,9 +68,9 @@ const actualizarDoc = async (req, res = express.response) =>{
                 msg:'No existe el documento'
             });
         }else{
-            let docNuevo = new Documento(req.body);
+            let docNuevo = new DashDoc(req.body);
             const {country, type, image} = docNuevo;
-            const actualizarDoc = await Documento.findByIdAndUpdate(docId, {country, type, image} );
+            const actualizarDoc = await DashDoc.findByIdAndUpdate(docId, {country, type, image} );
             res.json({
                 ok:true,
                 msg:'actualizar documento',
@@ -95,7 +93,7 @@ const eliminarDoc = async (req, res = express.response) =>{
 
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await DashDoc.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -104,10 +102,10 @@ const eliminarDoc = async (req, res = express.response) =>{
             });
         }else{
 
-            await Documento.findByIdAndDelete(docId);
+            await DashDoc.findByIdAndDelete(docId);
             res.json({
                 ok:true,
-                msg:'Documento eliminado'
+                msg:'Documento eliminados'
             })
         }
         
@@ -115,7 +113,7 @@ const eliminarDoc = async (req, res = express.response) =>{
         console.log(error);
         return res.status(500).json({
             ok:false,
-            msg:'Error por favor hable al administrador'
+            msg:'Error por favor hable al administradorrrrr'
         })
     }
 

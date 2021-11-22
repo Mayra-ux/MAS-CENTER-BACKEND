@@ -1,10 +1,9 @@
 const express = require('express');
-const Documento = require('../models/Documentos.js');
+const CustomDoc = require('../models/CustomDoc');
 
 const getDocs = async (req, res = express.response) =>{
 
-    const docs = await Documento.find()
-    .populate('country', 'name');
+    const docs = await CustomDoc.find();
 
     res.json({
         ok:true,
@@ -16,8 +15,7 @@ const getDocs = async (req, res = express.response) =>{
 const getDocsByType = async (req, res = express.response) =>{
     const {name, type} =(req);
 
-    const docs = await Documento.find()
-    .populate('country', 'name');
+    const docs = await CustomDoc.find();
     console.log(docs);
     if(docs.length===0){
         res.json({
@@ -36,7 +34,7 @@ const getDocsByType = async (req, res = express.response) =>{
     
 }
 const crearDoc = async (req, res = express.response) =>{
-    const doc = new Documento(req.body);
+    const doc = new CustomDoc(req.body);
     console.log(doc);
     try {
         await doc.save();
@@ -47,10 +45,9 @@ const crearDoc = async (req, res = express.response) =>{
         })
         
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
-            ok:true,
-            msg:'Error por favor hable al administrador'
+            ok:false,
+            msg:doc
         })
     }
 
@@ -62,7 +59,7 @@ const actualizarDoc = async (req, res = express.response) =>{
     console.log(req.params.id);
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await CustomDoc.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -70,9 +67,10 @@ const actualizarDoc = async (req, res = express.response) =>{
                 msg:'No existe el documento'
             });
         }else{
-            let docNuevo = new Documento(req.body);
-            const {country, type, image} = docNuevo;
-            const actualizarDoc = await Documento.findByIdAndUpdate(docId, {country, type, image} );
+            let docNuevo = new CustomDoc(req.body);
+            console.log(docNuevo);
+            const {typeCustom, type, image} = docNuevo;
+            const actualizarDoc = await CustomDoc.findByIdAndUpdate(docId, {type, image, typeCustom} );
             res.json({
                 ok:true,
                 msg:'actualizar documento',
@@ -95,7 +93,7 @@ const eliminarDoc = async (req, res = express.response) =>{
 
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await CustomDoc.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -104,7 +102,7 @@ const eliminarDoc = async (req, res = express.response) =>{
             });
         }else{
 
-            await Documento.findByIdAndDelete(docId);
+            await CustomDoc.findByIdAndDelete(docId);
             res.json({
                 ok:true,
                 msg:'Documento eliminado'

@@ -27,7 +27,14 @@ app.use('/api/documentos', require('./routes/documentos'));
 app.use('/api/specialrules', require('./routes/specialrules'));
 // CRUD de paises
 app.use('/api/paises', require('./routes/paises'));
-
+//Ruta de custom
+app.use('/api/custom', require('./routes/custom'));
+//Ruta de dash
+app.use('/api/dashb', require('./routes/dashb'));
+//Ruta de custom docs
+app.use('/api/customDocs', require('./routes/customDocs'));
+//Ruta de dash docs
+app.use('/api/dashDocs', require('./routes/dashDocs'));
 
 app.listen( process.env.PORT, () => {
     console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);

@@ -1,68 +1,44 @@
 const express = require('express');
-const Documento = require('../models/Documentos.js');
+const Custom = require('../models/Dashb');
 
-const getDocs = async (req, res = express.response) =>{
+const getDash = async (req, res = express.response) =>{
 
-    const docs = await Documento.find()
-    .populate('country', 'name');
 
+    const dashb = await Custom.find();
     res.json({
         ok:true,
-        msg:'Obtener documentos',
-        docs
+        msg:'Get Custom jobs',
+        dashb
     })
 }
-
-const getDocsByType = async (req, res = express.response) =>{
-    const {name, type} =(req);
-
-    const docs = await Documento.find()
-    .populate('country', 'name');
-    console.log(docs);
-    if(docs.length===0){
-        res.json({
-            ok:false,
-            msg:'No hay documentos',
-            Pais: name,
-            Tipo: type
-        })
-    }else{
-        res.json({
-            ok:true,
-            msg:'Obtener documentos',
-            docs
-        })
-    }
-    
-}
-const crearDoc = async (req, res = express.response) =>{
-    const doc = new Documento(req.body);
+const crearDash = async (req, res = express.response) =>{
+    const doc = new Custom(req.body);
     console.log(doc);
     try {
         await doc.save();
 
         return res.json({
             ok:true,
-            msg:'Documento creado'
+            msg:'Dash Job creado'
         })
         
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            ok:true,
+            ok:false,
             msg:'Error por favor hable al administrador'
         })
     }
 
     
 }
-const actualizarDoc = async (req, res = express.response) =>{
+const actualizarDash = async (req, res = express.response) =>{
     
     const docId = req.params.id;
-    console.log(req.params.id);
+    
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await Custom.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -70,9 +46,10 @@ const actualizarDoc = async (req, res = express.response) =>{
                 msg:'No existe el documento'
             });
         }else{
-            let docNuevo = new Documento(req.body);
-            const {country, type, image} = docNuevo;
-            const actualizarDoc = await Documento.findByIdAndUpdate(docId, {country, type, image} );
+            let docNuevo = new Custom(req.body);
+            console.log("|"+docNuevo);
+            const {name, image} = docNuevo;
+            const actualizarDoc = await Custom.findByIdAndUpdate(docId, {name, image} );
             res.json({
                 ok:true,
                 msg:'actualizar documento',
@@ -89,13 +66,13 @@ const actualizarDoc = async (req, res = express.response) =>{
     }
 
 }
-const eliminarDoc = async (req, res = express.response) =>{
+const eliminarDash = async (req, res = express.response) =>{
 
     const docId = req.params.id;
 
     try {
 
-        const doc = await Documento.findById(docId);
+        const doc = await Custom.findById(docId);
 
         if (!doc) {
             return res.status(404).json({
@@ -104,7 +81,7 @@ const eliminarDoc = async (req, res = express.response) =>{
             });
         }else{
 
-            await Documento.findByIdAndDelete(docId);
+            await Custom.findByIdAndDelete(docId);
             res.json({
                 ok:true,
                 msg:'Documento eliminado'
@@ -123,9 +100,8 @@ const eliminarDoc = async (req, res = express.response) =>{
 }
 
 module.exports = {
-    getDocs,
-    crearDoc,
-    actualizarDoc,
-    eliminarDoc,
-    getDocsByType
+    getDash,
+    crearDash,
+    actualizarDash,
+    eliminarDash
 }
