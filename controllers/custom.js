@@ -46,9 +46,11 @@ const actualizarCustom = async (req, res = express.response) =>{
             });
         }else{
             let docNuevo = new Custom(req.body);
-            const {name, image} = docNuevo;
-            console.log(docNuevo);
-            const actualizarDoc = await Custom.findByIdAndUpdate(docId, {name, image} );
+            const {name} = docNuevo;
+            
+            let image = req.body.image2;
+            console.log("|"+image);
+            const actualizarDoc = await Custom.findByIdAndUpdate(docId, ({name, image}) );
             res.json({
                 ok:true,
                 msg:'actualizar custom',
