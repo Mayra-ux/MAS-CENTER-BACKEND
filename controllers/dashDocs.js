@@ -69,8 +69,9 @@ const actualizarDoc = async (req, res = express.response) =>{
             });
         }else{
             let docNuevo = new DashDoc(req.body);
-            const {country, type, image} = docNuevo;
-            const actualizarDoc = await DashDoc.findByIdAndUpdate(docId, {country, type, image} );
+            console.log(req.body);
+            const {dashboard, type, image} = docNuevo;
+            const actualizarDoc = await DashDoc.findByIdAndUpdate(docId, {dashboard, type, image} );
             res.json({
                 ok:true,
                 msg:'actualizar documento',
