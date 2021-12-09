@@ -17,7 +17,23 @@ const UsuarioSchema = Schema({
     role:{
         type:String,
         required:true,
-    }
+    },
+    status:{
+        type:String,
+        required:true,
+    },
+    shift:{
+        type:String,
+        required:true,
+    },
+    hub:{
+        type:String,
+        required:true,
+    },
+    breakT:{
+        type:String,
+        required:true,
+    },
 });
 UsuarioSchema.method('toJSON', function() {
     const { __v, _id, ...object } = this.toObject();

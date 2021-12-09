@@ -49,7 +49,7 @@ const loginUsuarios = async (req, res = express.response) =>{
 
     try {
         let usuario = await Usuario.findOne({email});
-        //console.log(usuario);
+        console.log(usuario);
         if(!usuario){
             return res.status(400).json({
                 ok:false,
@@ -61,7 +61,8 @@ const loginUsuarios = async (req, res = express.response) =>{
         //console.log(validarUsuario);
 
         //generacion de token
-        const token = await generarJWT(usuario.id, usuario.name, usuario.role);
+        const token = await generarJWT(usuario.id, usuario.name, usuario.role, usuario.email, usuario.status,  usuario.shift,  usuario.hub,  usuario.breakT);
+        console.log(token);
 
         if(validarUsuario===true){
             return res.status(201).json({
@@ -71,7 +72,11 @@ const loginUsuarios = async (req, res = express.response) =>{
                 name: usuario.name,
                 email: usuario.email,
                 role: usuario.role,
-                token
+                status:usuario.status, 
+                shift:usuario.shift, 
+                hub:usuario.hub, 
+                breakT:usuario.breakT,
+                token,
             })
         }else{
             return res.status(400).json({
@@ -93,10 +98,9 @@ const loginUsuarios = async (req, res = express.response) =>{
 
 const revalidarToken = async(req, res = express.response) =>{
     
-    const {uid, name, role} = req;
-
-
-    const token = await generarJWT(uid, name, role);
+    const {uid, name, role, status, shift, hub, breakT} = req;
+    
+    const token = await generarJWT(uid, name, role, status, shift, hub, breakT);
        
     res.json({
         ok:true,
@@ -104,7 +108,11 @@ const revalidarToken = async(req, res = express.response) =>{
         token,
         uid,
         name, 
-        role
+        role,
+        status, 
+        shift, 
+        hub, 
+        breakT
     })
 }
 const getUser = async (req, res = express.response) =>{
@@ -118,7 +126,6 @@ const getUser = async (req, res = express.response) =>{
     })
 }
 
-
 const actualizarUser = async (req, res = express.response) =>{
 
     const UserId = req.params.id;
@@ -129,12 +136,12 @@ const actualizarUser = async (req, res = express.response) =>{
         //encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(usuario.password, salt);
-        const {name, email, password, role} = usuario;
-        const actualizarDoc = await Usuario.findByIdAndUpdate(UserId, {name, email, password, role} );
+        const {name, email, password, role, status, shift, hub, breakT} = usuario;
+        const actualizarDoc = await Usuario.findByIdAndUpdate(UserId, {name, email, password, role, status, shift, hub, breakT} );
         res.json({
             ok:true,
             msg:'actualizar documento',
-            //actualizarDoc
+            actualizarDoc
         })
         
     } catch (error) {

@@ -35,7 +35,10 @@ app.use('/api/dashb', require('./routes/dashb'));
 app.use('/api/customDocs', require('./routes/customDocs'));
 //Ruta de dash docs
 app.use('/api/dashDocs', require('./routes/dashDocs'));
-
+//Ruta de check
+app.use('/api/check', require('./routes/check'));
+//Ruta de horas extras
+app.use('/api/checkE', require('./routes/checkE'));
 app.listen( process.env.PORT, () => {
     console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);
 });
