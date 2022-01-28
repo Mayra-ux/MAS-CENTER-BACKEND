@@ -23,6 +23,18 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 // CRUD de docs
 app.use('/api/documentos', require('./routes/documentos'));
+// CRUD de erizo add Mayra
+app.use('/api/erizo', require('./routes/erizo'));
+// CRUD de BlogCards add Mayra
+app.use('/api/blogCards', require('./routes/blogCards'));
+// CRUD de BlogCarousel add Mayra
+app.use('/api/blogCarousel', require('./routes/blogCarousel'));
+// CRUD de BlogSpecialRules add Mayra
+app.use('/api/blogSpecialRules', require('./routes/blogSpecialRules'));
+// CRUD de BlogMemes add Mayra
+app.use('/api/blogMemes', require('./routes/blogMemes'));
+// CRUD de BlogReglasObsoletas add Mayra
+app.use('/api/blogObsoleteRules', require('./routes/blogObsoleteRules'));
 // CRUD de special rules
 app.use('/api/specialrules', require('./routes/specialrules'));
 // CRUD de paises

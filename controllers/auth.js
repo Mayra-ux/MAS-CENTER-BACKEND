@@ -153,6 +153,7 @@ const actualizarUser = async (req, res = express.response) =>{
     }
 
 }
+
 const eliminarUser = async (req, res = express.response) =>{
 
     const UserId = req.params.id;

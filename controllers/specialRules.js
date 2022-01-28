@@ -49,8 +49,8 @@ const actualizarSR = async (req, res = express.response) =>{
             });
         }else{
             let docNuevo = new SpecialRule(req.body);
-            const {type, image} = docNuevo;
-            const actualizarDoc = await SpecialRule.findByIdAndUpdate(docId, {type, image} );
+            const {date, image} = docNuevo;
+            const actualizarDoc = await SpecialRule.findByIdAndUpdate(docId, {date, image} );
             res.json({
                 ok:true,
                 msg:'actualizar SpecialRule',
